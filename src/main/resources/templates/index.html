@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+</head>
+<body>
+  <h1>TEST</h1>
+  <div th:each="note : ${notes}">
+    <h4 th:text="${note.title}">note title</h4>
+    <p th:text="${note.text}">note text</p>
+  </div>
+</body>
+</html>
