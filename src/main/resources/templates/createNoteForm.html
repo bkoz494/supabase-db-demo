@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
     <title>Create Note</title>
 </head>
 <body>
-    <form method="post" th:object="${noteDto}" th:action="@{/create-note}">
-        <input type="text" th:field="*{title}" placeholder="title">
-        <input type="text" th:field="*{text}" placeholder="text">
-        <input type="submit" th:value="create">
-    </form>
+    <div layout:fragment="content">
+        <form method="post" th:object="${noteDto}" th:action="@{/create-note}">
+            <input type="text" th:field="*{title}" placeholder="title" class="form-control">
+            <input type="text" th:field="*{text}" placeholder="text" class="form-control">
+            <input type="submit" th:value="create" class="btn btn-primary">
+        </form>
+    </div>
 </body>
 </html>

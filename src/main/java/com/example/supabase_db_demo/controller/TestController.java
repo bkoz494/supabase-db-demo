@@ -25,7 +25,7 @@ public class TestController {
     public String showIndex(Model model){
         List<Notes> notes = notesRepository.findAll();
         model.addAttribute("notes", notes);
-        return "index";
+        return "/index";
     }
 
     @GetMapping("/create-note-form")
