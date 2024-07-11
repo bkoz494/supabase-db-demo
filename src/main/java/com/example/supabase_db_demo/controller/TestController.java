@@ -42,8 +42,7 @@ public class TestController {
     @DeleteMapping(path = "/deleteNote/{id}", produces = MediaType.TEXT_HTML_VALUE)
     @ResponseBody
     public String deleteNote(@PathVariable("id") Long noteId){
-//        notesRepository.deleteById(noteId);
-//        return "redirect:/";
+        notesRepository.deleteById(noteId);
         return "";
     }
     @GetMapping("/updateNote/{id}")

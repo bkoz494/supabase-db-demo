@@ -13,13 +13,14 @@
     </style>
 </head>
 <body>
-    <div layout:fragment="content" hx-confirm="Are you sure?" hx-target="closest .card" hx-swap="outerHTML swap:1s">
-        <div th:each="note : ${notes}" class="card" hx-target="this" hx-swap="outerHTML" th:fragment="note-card">
+    <div layout:fragment="content">
+        <div th:each="note : ${notes}" class="card" hx-target="this" hx-swap="outerHTML swap:1s`" th:fragment="note-card" th:id=" 'note' + ${note.id}">
             <div class="card-body">
                 <h4 th:text="${note.title}">note title</h4>
                 <p th:text="${note.text}">note text</p>
                 <a th:attr="hx-get=@{/updateNote/{id}(id=${note.id})}" class="btn btn-primary">Update</a>
-                <a  th:attr="hx-delete=@{/deleteNote/{id}(id=${note.id})}" class="btn btn-danger">Delete</a>
+                <a th:attr="hx-delete=@{/deleteNote/{id}(id=${note.id})}, hx-target='#note' + ${note.id}" hx-confirm="Are you sure?"
+                   class="btn btn-danger">Delete</a>
             </div>
         </div>
         <a th:href="@{/create-note-form}">create note</a>
