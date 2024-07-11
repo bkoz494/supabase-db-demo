@@ -5,11 +5,13 @@
     <title>Test</title>
 </head>
 <body>
-  <h1>TEST</h1>
-  <div th:each="note : ${notes}">
-    <h4 th:text="${note.title}">note title</h4>
-    <p th:text="${note.text}">note text</p>
-  </div>
+    <h1>TEST</h1>
+    <div th:each="note : ${notes}">
+        <h4 th:text="${note.title}">note title</h4>
+        <p th:text="${note.text}">note text</p>
+        <a th:href="@{/updateNote/{id}(id=${note.id})}">Update</a>
+        <a th:href="@{/deleteNote/{id}(id=${note.id})}">Delete</a>
+    </div>
     <a th:href="@{/create-note-form}">create note</a>
 </body>
 </html>

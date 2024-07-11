@@ -9,9 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class TestController {
@@ -36,6 +38,29 @@ public class TestController {
     public String createNote(@ModelAttribute CreateNoteForm noteDto){
         Notes note = NoteDtoToNoteMapper.toNote(noteDto);
         notesRepository.save(note);
+        return "redirect:/";
+    }
+
+    @GetMapping("/deleteNote/{id}")
+    public String deleteNote(@PathVariable("id") Long noteId){
+        notesRepository.deleteById(noteId);
+        return "redirect:/";
+    }
+    @GetMapping("/updateNote/{id}")
+    public String showUpdateNote(@PathVariable("id") Long noteId, Model model){
+        Optional<Notes> notesOptional = notesRepository.findById(noteId);
+        if(notesOptional.isPresent()){
+            model.addAttribute("note", notesOptional.get());
+            return "update-note-form";
+        }
+        else {
+            return "index";
+        }
+    }
+
+    @PostMapping("/update-note")
+    public String updateNote(@ModelAttribute Notes notes){
+        notesRepository.save(notes);
         return "redirect:/";
     }
 }

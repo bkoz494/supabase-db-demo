@@ -10,4 +10,11 @@ public class NoteDtoToNoteMapper {
         notes.setText(createNoteForm.getText());
         return notes;
     }
+
+    public static CreateNoteForm toDto(Notes notes){
+        CreateNoteForm dto = new CreateNoteForm();
+        dto.setTitle(notes.getTitle());
+        dto.setText(notes.getText());
+        return dto;
+    }
 }
