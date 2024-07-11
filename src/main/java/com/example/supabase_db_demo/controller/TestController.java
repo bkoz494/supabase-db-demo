@@ -51,7 +51,7 @@ public class TestController {
         Optional<Notes> notesOptional = notesRepository.findById(noteId);
         if(notesOptional.isPresent()){
             model.addAttribute("note", notesOptional.get());
-            return "update-note-form";
+            return "update-note-form :: form";
         }
         else {
             return "index";
