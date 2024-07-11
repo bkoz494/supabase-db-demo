@@ -8,12 +8,16 @@
 </head>
 <body>
     <div layout:fragment="content">
-        <form th:attribute="hx-put=@{/update-note}" method="post" th:object="${note}" th:action="@{/update-note}" th:fragment="form">
-            <input type="hidden" th:value="*{id}" th:field="*{id}">
-            <input type="hidden" th:value="*{createdAt}" th:field="*{createdAt}">
-            <input type="text" th:value="*{title}" th:field="*{title}" class="form-control">
-            <input type="text" th:value="*{text}" th:field="*{text}" class="form-control">
-            <input type="submit" th:value="update" class="btn btn-primary">
+<!--        <form th:attr="hx-put=@{/update-note}" method="post" th:object="${note}" th:action="@{/update-note}" th:fragment="form">-->
+        <form hx-put=/update-note hx-target="this"  hx-swap="outerHTML" th:fragment="form">
+            <div>
+
+                <input id="note-id" name="id" type="hidden" th:value="${note.id}">
+                <input id="createdAt" name="createdAt" type="hidden" th:value="${note.createdAt}">
+                <input id="title" name="title" type="text" th:value="${note.title}" class="form-control">
+                <input id="text" name="text" type="text" th:value="${note.text}"  class="form-control">
+                <button type="submit" class="btn btn-primary">save</button>
+            </div>
         </form>
     </div>
 </body>

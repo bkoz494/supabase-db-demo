@@ -4,15 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Your notes</title>
+    <script type="text/javascript" th:src="@{/js/htmx.min.js}"></script>
+    <style>
+        .htmx-swapping {
+            opacity: 0;
+            transition: opacity 1s ease-out;
+        }
+    </style>
 </head>
 <body>
-    <div layout:fragment="content">
-        <div th:each="note : ${notes}" class="card" hx-target="this" hx-swap="outerHTML">
+    <div layout:fragment="content" hx-confirm="Are you sure?" hx-target="closest .card" hx-swap="outerHTML swap:1s">
+        <div th:each="note : ${notes}" class="card" hx-target="this" hx-swap="outerHTML" th:fragment="note-card">
             <div class="card-body">
                 <h4 th:text="${note.title}">note title</h4>
                 <p th:text="${note.text}">note text</p>
                 <a th:attr="hx-get=@{/updateNote/{id}(id=${note.id})}" class="btn btn-primary">Update</a>
-                <a th:href="@{/deleteNote/{id}(id=${note.id})}" class="btn btn-danger">Delete</a>
+                <a  th:attr="hx-delete=@{/deleteNote/{id}(id=${note.id})}" class="btn btn-danger">Delete</a>
             </div>
         </div>
         <a th:href="@{/create-note-form}">create note</a>

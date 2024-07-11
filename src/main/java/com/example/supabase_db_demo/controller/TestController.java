@@ -5,12 +5,10 @@ import com.example.supabase_db_demo.dto.CreateNoteForm;
 import com.example.supabase_db_demo.model.Notes;
 import com.example.supabase_db_demo.tools.NoteDtoToNoteMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,10 +39,12 @@ public class TestController {
         return "redirect:/";
     }
 
-    @GetMapping("/deleteNote/{id}")
+    @DeleteMapping(path = "/deleteNote/{id}", produces = MediaType.TEXT_HTML_VALUE)
+    @ResponseBody
     public String deleteNote(@PathVariable("id") Long noteId){
-        notesRepository.deleteById(noteId);
-        return "redirect:/";
+//        notesRepository.deleteById(noteId);
+//        return "redirect:/";
+        return "";
     }
     @GetMapping("/updateNote/{id}")
     public String showUpdateNote(@PathVariable("id") Long noteId, Model model){
@@ -58,9 +58,10 @@ public class TestController {
         }
     }
 
-    @PostMapping("/update-note")
-    public String updateNote(@ModelAttribute Notes notes){
-        notesRepository.save(notes);
-        return "redirect:/";
+    @PutMapping("/update-note")
+    public String updateNote(Notes note, Model model){
+        Notes savedNote = notesRepository.save(note);
+        model.addAttribute("note", note);
+        return "index :: note-card";
     }
 }
