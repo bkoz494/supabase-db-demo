@@ -14,7 +14,7 @@
 </head>
 <body>
     <div layout:fragment="content">
-        <div th:each="note : ${notes}" class="card" hx-target="this" hx-swap="outerHTML swap:1s`" th:fragment="note-card" th:id=" 'note' + ${note.id}">
+        <div th:each="note : ${notes}" class="card" hx-target="this" hx-swap="outerHTML`" th:fragment="note-card" th:id=" 'note' + ${note.id}">
             <div class="card-body">
                 <h4 th:text="${note.title}">note title</h4>
                 <p th:text="${note.text}">note text</p>
