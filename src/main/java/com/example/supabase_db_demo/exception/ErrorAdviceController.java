@@ -1,4 +1,4 @@
-package com.example.supabase_db_demo.xception;
+package com.example.supabase_db_demo.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
