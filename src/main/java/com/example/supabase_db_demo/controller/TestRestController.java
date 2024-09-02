@@ -7,7 +7,6 @@ import com.example.supabase_db_demo.tools.PrincipalTools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -53,21 +52,31 @@ public class TestRestController {
     }
 
     @PutMapping("/notes/{id}")
-    public ResponseEntity<Notes> updateNote(@RequestBody NoteRequest request, @PathVariable Long id){
+    public ResponseEntity<Notes> updateNote(@RequestBody NoteRequest request,
+                                            @PathVariable Long id,
+                                            Principal principal){
         Notes note = notesRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Could not find a note with id: " + id));
-        note.setTitle(request.getTitle());
-        note.setText(request.getText());
-        Notes saved = notesRepository.save(note);
-        return new ResponseEntity<>(note, HttpStatus.OK);
+        if(note.getOwnerId().equals(PrincipalTools.getPrincipalId(principal))){
+            note.setTitle(request.getTitle());
+            note.setText(request.getText());
+            Notes saved = notesRepository.save(note);
+            return new ResponseEntity<>(note, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
 
     @DeleteMapping("/notes/{id}")
-    public ResponseEntity<Void> deleteNote(@PathVariable Long id) {
-        if (!notesRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<Void> deleteNote(@PathVariable Long id,
+                                           Principal principal) {
+        Notes note = notesRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Could not find a note with id: " + id));
+        if(note.getOwnerId().equals(PrincipalTools.getPrincipalId(principal))){
+            notesRepository.deleteById(id);
+            return ResponseEntity.noContent().build();
         }
-        notesRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
+        else {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
 
 }
