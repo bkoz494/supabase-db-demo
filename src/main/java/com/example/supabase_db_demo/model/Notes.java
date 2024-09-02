@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "notes")
@@ -18,6 +19,8 @@ public class Notes {
     private LocalDateTime createdAt;
     private String text;
     private String title;
+    @Column(name = "owner_id")
+    private UUID ownerId;
 
     @PrePersist
     private void setCreatedAt(){
